@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>
+<div id="banner"></div>
+<div class="result">TOTO</div>
+<script>
+// 'load-jquery.js'
+window.onload = function () {
+  if (window.jQuery === undefined) {
+    var script = document.createElement('script');
+    script.src = 'http://code.jquery.com/jquery-latest.min.js';
+    document.getElementsByTagName('head')[0].appendChild(script); // load jQuery
+  }
+};
+
+function rotateBanner(elem){
+	if(typeof elem === 'undefined' || !myVar) {
+		elem=$('#banner');
+		alert(elem.text());
+	}
+	$.getJSON('banner.json', function(data) {
+		img=randomize(data);
+		insertImg(elem,img);
+	});
+}
+
+function randomize(data){
+	var numLow = 0;
+	var numHigh = data.length-1;
+	var adjustedHigh = (parseFloat(numHigh) - parseFloat(numLow)) + 1;
+	var numRand = Math.floor(Math.random()*adjustedHigh) + parseFloat(numLow);
+	return data[numRand];
+}
+
+function insertImg(elem,img){
+	elem.append("<a href='"+img.link+"'><img src='"+img.src+"' /></a>");
+}
+
+</script>
+
+
+
+
+</body>
+</html>
