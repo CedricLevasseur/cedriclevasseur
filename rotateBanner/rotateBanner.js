@@ -15,7 +15,8 @@
  * [
  * 	{"src":"http://www.numerikids.com/alpha/wp-content/uploads/2009/06/mario_bros.jpg",
  * 	"link":"http://www.google.fr",
- * 	"onclick":"$.get(\"http:\/\/172.16.31.180\/rotateBanner\/vide.gif\");"
+ * 	"onclick":"$.get(\"http:\/\/172.16.31.180\/rotateBanner\/vide.gif\");",
+ * 	"options":"target=\"_blank\" style="\"border:purple dotted 3px;\""
  * 	},
  * 	{"src":"http://monophonik.com/wp-content/uploads/2009/06/mario-wii.jpg",
  * 	"link":"http://www.bing.com",
@@ -59,14 +60,18 @@ $(document).ready(function() {
  * rotateBanner is the main function of this script. It is loaded when
  * the html document finished to load.
  * @param {object} target a html element, member of the Document Object Model. If empty, it use &lt;div id="banner"&gt;
- * this method call for a banner.json file
+ * @param {string} an url for the banner.json file, if empty, 'banner.json' in the current folder will be used. Otherwise, take care for a Same host url. See http://en.wikipedia.org/wiki/Same_origin_policy for details.
+ *
  */
-function rotateBanner(target){
+function rotateBanner(target, json_url){
 	//loadJQuery();
 	if(typeof target === 'undefined' || !target) {
 		target=$("#banner");
 	}
-	$.getJSON('banner.json', function(data) {
+	if(typeof json_url === 'undefined' || !json_url) {
+		json_url="banner.json";	
+	}
+	$.getJSON(json_url, function(data) {
 		elem=randomize(data);
 		insertElement(target,elem);
 	});
@@ -118,6 +123,7 @@ function insertElement(target,elem){
 	ext=elem.src.substring(elem.src.length-3, elem.src.length);
 	var params=""
 	var source="";	
+	var options="";
 	if(ext=='swf'){
 		if(elem.width){
 			params=params+'width="'+elem.width+'" ';				
@@ -129,7 +135,10 @@ function insertElement(target,elem){
 		}else{		
 			params=params+'height="90" '
 		}
-		source='<object '+params+' data="'+elem.src+'" type="application/x-shockwave-flash"><param value="'+elem.src+'" name="movie"><param value="true" name="loop"></object>'
+		if(elem.options && elem.options.indexOf('=',0)>1 ){
+			options=elem.options;
+		}
+		source='<object '+params+' data="'+elem.src+'" type="application/x-shockwave-flash" '+options+'><param value="'+elem.src+'" name="movie"><param value="true" name="loop"></object>'
 	}else{
 		// jpg or png
 		var source='<img src="'+elem.src+'" />'
@@ -137,9 +146,13 @@ function insertElement(target,elem){
 		if(elem.onclick){
 			onclck=onclck+'onclick='+elem.onclick.replace('/\"/g','\\\"')+' '
 		}		
-		if(elem.link){
-			source='<a href="'+elem.link+'" '+onclck+'>'+source+'</a>';
+		if(elem.options && elem.options.indexOf('=',0)>1 ){
+			options=elem.options;
 		}
+		if(elem.link){
+			source='<a href="'+elem.link+'" '+onclck+' '+options+' >'+source+'</a>';
+		}
+
 	}
 	target.append(source);
 }

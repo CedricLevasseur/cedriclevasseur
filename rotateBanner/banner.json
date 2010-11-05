@@ -1,7 +1,9 @@
 [
 	{"src":"http://www.numerikids.com/alpha/wp-content/uploads/2009/06/mario_bros.jpg",
 	"link":"http://www.google.fr",
-	"onclick":"$.get(\"http://172.16.31.180/rotateBanner/vide.gif\");"
+	"onclick":"$.get(\"http://172.16.31.180/rotateBanner/vide.gif\");",
+ 	"options":"target=\"_blank\" style=\"border:#00FF00 dotted 3px;\""
+
 	},
 	{"src":"http://monophonik.com/wp-content/uploads/2009/06/mario-wii.jpg",
 	"link":"http://www.bing.com",
