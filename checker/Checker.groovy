@@ -23,7 +23,7 @@ public class Checker{
 
     
 
-    public static String roundMe(long bytesNumber){
+    private static String roundMe(long bytesNumber){
 
         def unites=["b","K","M","G","T"]
         def iter=0;
@@ -43,6 +43,7 @@ public class Checker{
 
         def checker = new Checker();
 
+        checker.diskCheck();
 	for (e in checker.config){
 		def url=e.getValue().get('url');
 		def size=e.getValue().get('size');
@@ -71,12 +72,12 @@ public class Checker{
 
     private void save(){
 
-	new File("vidal/Size.groovy").withWriter { writer ->config.writeTo(writer)}
+	new File("checker/SizeConfig.groovy").withWriter { writer ->config.writeTo(writer)}
     }
 
     public void diskCheck(){
         //File f = new File("c:/");
-        File f = new File("F:/");
+        File f = new File("/");
         // prints the volume size in bytes.
         System.out.println("Total Space="+Checker.roundMe(f.getTotalSpace()));
         // prints the total free bytes for the volume in bytes.
