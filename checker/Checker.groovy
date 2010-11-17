@@ -1,28 +1,56 @@
 package checker
 
+
+
+/**
+ * Check the size of a file exposed on the network via http or on the filesystem.
+ *
+ * @author Cédric Levasseur
+ */
 public class Checker{
 
+
     private float errorPercent=0.05;
-    public  ConfigObject config;
 
-    public setErrorPercent(float percent){
-	errorPercent=percent;
-    }	
-    
-    public float getErrorPercent(){
-	return errorPercent;
-    }	
-
-    public Checker(){
- 	load();	
-    }
-    
     public static FILE_NOT_FOUND_OR_EMPTY = -1;
     public static FILE_SIZE_VALID = 0;
     public static FILE_SIZE_EXPECTED_INCORRECT = -2;
 
-    
 
+
+
+    public  ConfigObject config;
+
+
+    /**
+     * @param float the percent of size permitted :
+     * 0.05 means the size could differs of 5%
+     */
+    public setErrorPercent(float percent){
+	errorPercent=percent;
+    }	
+
+    /**
+     *
+     * @return the error percent
+     */
+    public float getErrorPercent(){
+	return errorPercent;
+    }	
+
+
+    /**
+     * the constructor load the config File
+     */
+    public Checker(){
+ 	load();	
+    }
+    
+    /**
+     * Convert a numbers of bytes into human reading size
+     * in example : 1024 is 1K
+     * @param a number of bytes
+     */
     private static String roundMe(long bytesNumber){
 
         def unites=["b","K","M","G","T"]
@@ -34,10 +62,20 @@ public class Checker{
         return bytesNumber.toString() + unites[iter];
     }
 
+    /**
+     *
+     *
+     */
+
     public Object getConfig(){
 	return config;
     }
 
+
+    /**
+     * This main method check ALL the files specified into the SizeConfig.groovy
+     *
+     */
 
     public static void main(String[] args){
 
@@ -65,15 +103,30 @@ public class Checker{
     	}
     }
 
+    /**
+     * load the list of file from checker/SizeConfig.groovy
+     */
+    
     private void load(){
 
 	config = new ConfigSlurper().parse(new File('checker/SizeConfig.groovy').toURL())
     }
 
+    /**
+     * @deprecated
+     *
+     */
+
     private void save(){
 
 	new File("checker/SizeConfig.groovy").withWriter { writer ->config.writeTo(writer)}
     }
+
+
+    /**
+     * Print out the place on the disk
+     * To be continued
+     */
 
     public void diskCheck(){
         //File f = new File("c:/");
@@ -89,15 +142,28 @@ public class Checker{
         System.out.println("Usable Space="+Checker.roundMe(f.getUsableSpace()));
     }
 
-    public int fileCheck(String url, long fileLengthExpected ){
+
+    /**
+     * check a file
+     * @param src a location of a file, either http:// or a path (in java syntax which means which slash like c:/directory/file )
+     * @param fileLenghtExpected a size in number of bytes
+     */
+    public int fileCheck(String src, long fileLengthExpected ){
 	if(url.startsWith("http")){
-		return fileHttpCheck(url,fileLengthExpected);
+		return fileHttpCheck(src,fileLengthExpected);
 	}else{
-		return fileFsCheck(url,fileLengthExpected);
+		return fileFsCheck(src,fileLengthExpected);
 	}
     }
 
-    public int fileHttpCheck(String httpurl, fileLengthExpected ){
+
+    /**
+     * check a file exposed via http
+     * @param src a location of a file, on  http://
+     * @param fileLenghtExpected a size in number of bytes
+     */
+
+    private int fileHttpCheck(String httpurl, long fileLengthExpected ){
 
 	if(fileLengthExpected<1){
 		return FILE_SIZE_EXPECTED_INCORRECT;
@@ -117,7 +183,13 @@ public class Checker{
 
     }
 
-    public int fileFsCheck(String path, fileLengthExpected ){
+
+    /**
+     * check a file on the filesystem
+     * @param src the path of the file (in java syntax which means which slash like c:/directory/file )
+     * @param fileLenghtExpected a size in number of bytes
+     */
+    private int fileFsCheck(String path, fileLengthExpected ){
 
 	if(fileLengthExpected<1){
 		return FILE_SIZE_EXPECTED_INCORRECT 
@@ -127,14 +199,17 @@ public class Checker{
 /*	Date lastModified = new Date(file.lastModified());
  *	System.out.println(lastModified);
  */	
-	
 
 	return fileIntCheck(fileLength, fileLengthExpected);
 
 	}
 
-
-
+    /**
+     * check two size in bytes with a errorPercent margin
+     * @param fileLenght a size in number of bytes
+     * @param fileLenghtExpected a size in number of bytes
+     * @return zero if valide, a negative if file is not found, an errorPercent if not valid
+     */
    private int fileIntCheck(long fileLength, long fileLengthExpected){
 
         if (fileLength <= 0){
@@ -149,8 +224,5 @@ public class Checker{
     	return Math.round(Math.abs(fileLengthExpected/fileLength*100));  
 
     }
-
-
-
 
 }
