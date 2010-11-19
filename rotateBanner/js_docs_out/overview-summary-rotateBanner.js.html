@@ -94,7 +94,8 @@ function asd() {
  [
  	{"src":"http://www.numerikids.com/alpha/wp-content/uploads/2009/06/mario_bros.jpg",
  	"link":"http://www.google.fr",
- 	"onclick":"$.get(\"http:\/\/172.16.31.180\/rotateBanner\/vide.gif\");"
+ 	"onclick":"$.get(\"http:\/\/172.16.31.180\/rotateBanner\/vide.gif\");",
+ 	"options":"target=\"_blank\" style="\"border:purple dotted 3px;\""
  	},
  	{"src":"http://monophonik.com/wp-content/uploads/2009/06/mario-wii.jpg",
  	"link":"http://www.bing.com",
@@ -151,7 +152,7 @@ function asd() {
 		      <td>
 			 <code>
 			    <b>
-			       <a href="GLOBALS.html#!s!rotateBanner">rotateBanner</a></b>(&lt;object&gt; target)
+			       <a href="GLOBALS.html#!s!rotateBanner">rotateBanner</a></b>(&lt;object&gt; target, json_url)
 			 </code>
 			 <br>
 			 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -183,7 +184,8 @@ function asd() {
  * [
  * 	{"src":"http://www.numerikids.com/alpha/wp-content/uploads/2009/06/mario_bros.jpg",
  * 	"link":"http://www.google.fr",
- * 	"onclick":"$.get(\"http:\/\/172.16.31.180\/rotateBanner\/vide.gif\");"
+ * 	"onclick":"$.get(\"http:\/\/172.16.31.180\/rotateBanner\/vide.gif\");",
+ * 	"options":"target=\"_blank\" style="\"border:purple dotted 3px;\""
  * 	},
  * 	{"src":"http://monophonik.com/wp-content/uploads/2009/06/mario-wii.jpg",
  * 	"link":"http://www.bing.com",
@@ -219,7 +221,8 @@ function asd() {
  * The bootstrap which load the script
  */</span>
 $(document).ready(<span class="reserved">function</span>() {
-  rotateBanner();
+<span class="comment">//  rotateBanner();</span>
+  rotateBanner($(<span class="literal">"#banner"</span>),<span class="literal">"http://www.otherdomain.com/rotateBanner/banner.php?callback=?"</span>);	
 });
 
 
@@ -227,17 +230,27 @@ $(document).ready(<span class="reserved">function</span>() {
  * rotateBanner is the main function of this script. It is loaded when
  * the html document finished to load.
  * <span class="attrib">@param</span> {object} target a html element, member of the Document Object Model. If empty, it use &amp;lt;div id="banner"&amp;gt;
- * this method call for a banner.json file
+ * <span class="attrib">@param</span> {string} an url for the banner.json file, if empty, 'banner.json' in the current folder will be used. Otherwise, take care for a Same host url. See http://en.wikipedia.org/wiki/Same_origin_policy for details.
+ *
  */</span>
-<span class="reserved">function</span> rotateBanner(target){
+<span class="reserved">function</span> rotateBanner(target, json_url){
 	<span class="comment">//loadJQuery();</span>
 	<span class="reserved">if</span>(typeof target === <span class="literal">'undefined'</span> || !target) {
 		target=$(<span class="literal">"#banner"</span>);
 	}
-	$.getJSON(<span class="literal">'banner.json'</span>, <span class="reserved">function</span>(data) {
+	<span class="reserved">if</span>(typeof json_url === <span class="literal">'undefined'</span> || !json_url) {
+		json_url=<span class="literal">"banner.json"</span>;	
+	}
+	$.ajax({
+    	url : json_url,
+    	dataType : <span class="literal">'jsonp'</span>,
+    	success : <span class="reserved">function</span>(data){
 		elem=randomize(data);
 		insertElement(target,elem);
-	});
+	} 
+});
+
+
 }
 
 <span class="comment">/**
@@ -246,18 +259,18 @@ $(document).ready(<span class="reserved">function</span>() {
  * <span class="attrib">@private</span>
  * <span class="attrib">@deprecated</span>
  */</span>
-window.onload = <span class="reserved">function</span> () {
+<span class="comment">/* window.onload = function () {
 
-	 <span class="reserved">function</span> loadJQuery(){
-	  <span class="reserved">if</span> (window.jQuery === undefined) {
-	    var script = document.createElement(<span class="literal">'script'</span>);
-	    script.src = <span class="literal">'http://code.jquery.com/jquery-latest.min.js'</span>;
-	    document.getElementsByTagName(<span class="literal">'head'</span>)[0].appendChild(script); <span class="comment">// load jQuery</span>
+	 function loadJQuery(){
+	  if (window.jQuery === undefined) {
+	    var script = document.createElement('script');
+	    script.src = 'http://code.jquery.com/jquery-latest.min.js';
+	    document.getElementsByTagName('head')[0].appendChild(script); // load jQuery
 	  }
 	}
 
 }
-
+*/</span>
 
 
 
@@ -286,6 +299,7 @@ window.onload = <span class="reserved">function</span> () {
 	ext=elem.src.substring(elem.src.length-3, elem.src.length);
 	var params=<span class="literal">""</span>
 	var source=<span class="literal">""</span>;	
+	var options=<span class="literal">""</span>;
 	<span class="reserved">if</span>(ext==<span class="literal">'swf'</span>){
 		<span class="reserved">if</span>(elem.width){
 			params=params+<span class="literal">'width="'</span>+elem.width+<span class="literal">'" '</span>;				
@@ -297,19 +311,24 @@ window.onload = <span class="reserved">function</span> () {
 		}<span class="reserved">else</span>{		
 			params=params+<span class="literal">'height="90" '</span>
 		}
-		source=<span class="literal">'&lt;object '</span>+params+<span class="literal">' data="'</span>+elem.src+<span class="literal">'" type="application/x-shockwave-flash"&gt;&lt;param value="'</span>+elem.src+<span class="literal">'" name="movie"&gt;&lt;param value="true" name="loop"&gt;&lt;/object&gt;'</span>
+		<span class="reserved">if</span>(elem.options &amp;&amp; elem.options.indexOf(<span class="literal">'='</span>,0)&gt;1 ){
+			options=elem.options;
+		}
+		source=<span class="literal">'&lt;object '</span>+params+<span class="literal">' data="'</span>+elem.src+<span class="literal">'" type="application/x-shockwave-flash" '</span>+options+<span class="literal">'&gt;&lt;param value="'</span>+elem.src+<span class="literal">'" name="movie"&gt;&lt;param value="true" name="loop"&gt;&lt;/object&gt;'</span>
 	}<span class="reserved">else</span>{
 		<span class="comment">// jpg or png</span>
 		var source=<span class="literal">'&lt;img src="'</span>+elem.src+<span class="literal">'" /&gt;'</span>
 		var onclck=<span class="literal">""</span>;	
-		alert (elem.onclick);
 		<span class="reserved">if</span>(elem.onclick){
 			onclck=onclck+<span class="literal">'onclick='</span>+elem.onclick.replace(<span class="literal">'/\"/g'</span>,<span class="literal">'\\\"'</span>)+<span class="literal">' '</span>
-			alert(onclck);
 		}		
-		<span class="reserved">if</span>(elem.link){
-			source=<span class="literal">'&lt;a href="'</span>+elem.link+<span class="literal">'" '</span>+onclck+<span class="literal">'&gt;'</span>+source+<span class="literal">'&lt;/a&gt;'</span>;
+		<span class="reserved">if</span>(elem.options &amp;&amp; elem.options.indexOf(<span class="literal">'='</span>,0)&gt;1 ){
+			options=elem.options;
 		}
+		<span class="reserved">if</span>(elem.link){
+			source=<span class="literal">'&lt;a href="'</span>+elem.link+<span class="literal">'" '</span>+onclck+<span class="literal">' '</span>+options+<span class="literal">' &gt;'</span>+source+<span class="literal">'&lt;/a&gt;'</span>;
+		}
+
 	}
 	target.append(source);
 }
@@ -371,6 +390,6 @@ window.onload = <span class="reserved">function</span> () {
 <font size="-1">
 
 </font>
-<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Tue Nov  2 17:20:55 2010</div>
+<div class="jsdoc_ctime">Documentation generated by <a href="http://jsdoc.sourceforge.net/" target="_parent">JSDoc</a> on Fri Nov 19 19:39:02 2010</div>
 </body>
 </html>
