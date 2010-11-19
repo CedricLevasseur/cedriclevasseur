@@ -1,0 +1,12 @@
+rotateBanner is a jquery script to rotateBanner on a website
+Author : Cédric Levasseur, http://www.cedriclevasseur.biz
+Licence : LGPL
+
+main features :
+* banner are images or flash
+* banner can have parameters like class, width, height, and even onclick.
+* can do statistic via a onlick syntax
+* configuration of the banner via json syntax
+* configuration can be exposed on an other domain, via a php file. 
+
+Have fun with this script ! 
