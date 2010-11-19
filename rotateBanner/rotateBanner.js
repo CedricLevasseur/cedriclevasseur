@@ -52,7 +52,8 @@
  * The bootstrap which load the script
  */
 $(document).ready(function() {
-  rotateBanner();
+//  rotateBanner();
+  rotateBanner($("#banner"),"http://www.otherdomain.com/rotateBanner/banner.php?callback=?");	
 });
 
 
@@ -71,10 +72,16 @@ function rotateBanner(target, json_url){
 	if(typeof json_url === 'undefined' || !json_url) {
 		json_url="banner.json";	
 	}
-	$.getJSON(json_url, function(data) {
+	$.ajax({
+    	url : json_url,
+    	dataType : 'jsonp',
+    	success : function(data){
 		elem=randomize(data);
 		insertElement(target,elem);
-	});
+	} 
+});
+
+
 }
 
 /**
@@ -83,7 +90,7 @@ function rotateBanner(target, json_url){
  * @private
  * @deprecated
  */
-window.onload = function () {
+/* window.onload = function () {
 
 	 function loadJQuery(){
 	  if (window.jQuery === undefined) {
@@ -94,7 +101,7 @@ window.onload = function () {
 	}
 
 }
-
+*/
 
 
 
