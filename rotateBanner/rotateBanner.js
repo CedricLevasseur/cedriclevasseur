@@ -183,5 +183,5 @@ function insertElement(target,elem){
 		}
 
 	}
-	target.append(source);
+	target.html(source);
 }
