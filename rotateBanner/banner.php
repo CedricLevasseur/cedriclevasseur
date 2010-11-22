@@ -1,5 +1,5 @@
 <?php
-$handle = fopen("http://localhost/rotateBanner/banner.json", "rb");
+$handle = fopen("./banner.json", "rb");
 $contents = '';
 while (!feof($handle)) {
   $json .= fread($handle, 8192);
