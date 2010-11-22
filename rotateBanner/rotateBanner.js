@@ -37,10 +37,28 @@
  * To install in your website, follow these steps :
  * <ol>
  * 	<li> configure the multiple banners in the banner.json file 
- * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  
+ * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  where you want the banner inserted.
  * 	<li> load jquery in your html file
  * 	<li> load this banner.js in your html file and call rotateBanner() 
  * </ol>
+ *
+ *
+ *
+ * Sometimes you wish to separate the configuration of the banner and your website
+ * - If you wish multiples website to access to the banner configuration,
+ * - If you don't want to reconfigure the banners each times you deploy a webapps
+ * - ...
+ * When you're in a such configuration, you will employ a Cross Domain Ajax mechanics by following theses steps :
+ *
+ * <ol>
+ * 	<li> configure the multiple banners in the banner.json file 
+ * 	<li> deploy banner.php and banner.json in a new website, i.e http://www.my-company.com/banner/banner.php. 
+ * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  where you want the banner inserted.
+ * 	<li> load jquery in your html file
+ * 	<li> load this banner.js in your html file and call rotateBanner() with these parameters : rotateBanner($("#banner"),"http://www.my-compagny.com/banner/banner.php?callback=?"); (callback is very important !!)
+ * </ol>
+ * 
+ *
  *
  * @author Cédric Levasseur
  * @version 1.0
