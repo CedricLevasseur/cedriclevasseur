@@ -39,7 +39,7 @@
  * 	<li> configure the multiple banners in the banner.json file 
  * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  where you want the banner inserted.
  * 	<li> load jquery in your html file
- * 	<li> load this banner.js in your html file and call rotateBanner() 
+ * 	<li> load this banner.js in your html file and call rotateBanner() like this : <script "src=rotateBanner.js"> rotateBanner($("#banner"))</script> 
  * </ol>
  *
  *
@@ -55,7 +55,7 @@
  * 	<li> deploy banner.php and banner.json in a new website, i.e http://www.my-company.com/banner/banner.php. 
  * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  where you want the banner inserted.
  * 	<li> load jquery in your html file
- * 	<li> load this banner.js in your html file and call rotateBanner() with these parameters : rotateBanner($("#banner"),"http://www.my-compagny.com/banner/banner.php?callback=?"); (callback is very important !!)
+ * 	<li> load this banner.js in your html file and call rotateBanner() with these parameters : <script "src=rotateBanner.js"> rotateBanner($("#banner"),"http://www.my-compagny.com/banner/banner.php?callback=?");</script> (callback is very important !!)
  * </ol>
  * 
  *
@@ -68,14 +68,18 @@
 
 /**
  * The bootstrap which load the script
+ * @deprecated because it forbids parameters to start the script
+ *
+ *
+ * $(document).ready(function() {
+ * //  rotateBanner();
+ * rotateBanner($("#banner"),"http://www.otherdomain.com/rotateBanner/banner.php?callback=?");	
+ * });
  */
-$(document).ready(function() {
-//  rotateBanner();
-  rotateBanner($("#banner"),"http://www.otherdomain.com/rotateBanner/banner.php?callback=?");	
-});
 
 
 /**
+ * 	<li> configure the multiple banners in the banner.json file 
  * rotateBanner is the main function of this script. It is loaded when
  * the html document finished to load.
  * @param {object} target a html element, member of the Document Object Model. If empty, it use &lt;div id="banner"&gt;
