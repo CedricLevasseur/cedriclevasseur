@@ -39,7 +39,7 @@
  * 	<li> configure the multiple banners in the banner.json file 
  * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  where you want the banner inserted.
  * 	<li> load jquery in your html file
- * 	<li> load this banner.js in your html file and call rotateBanner() like this : <script "src=rotateBanner.js"> rotateBanner($("#banner"))</script> 
+ * 	<li> load this banner.js in your html file and call rotateBanner() like this : &lt;script "src=rotateBanner.js"&gt; rotateBanner($("#banner"))&lt;/script&gt;
  * </ol>
  *
  *
@@ -55,7 +55,7 @@
  * 	<li> deploy banner.php and banner.json in a new website, i.e http://www.my-company.com/banner/banner.php. 
  * 	<li> create a &lt;div id="banner"&gt;&lt;/div&gt; in your html file  where you want the banner inserted.
  * 	<li> load jquery in your html file
- * 	<li> load this banner.js in your html file and call rotateBanner() with these parameters : <script "src=rotateBanner.js"> rotateBanner($("#banner"),"http://www.my-compagny.com/banner/banner.php?callback=?");</script> (callback is very important !!)
+ * 	<li> load this banner.js in your html file and call rotateBanner() with these parameters : &lt;script "src=rotateBanner.js"&gt; rotateBanner($("#banner"),"http://www.my-compagny.com/banner/banner.php?callback=?");&lt/script&gt (callback is very important !!)
  * </ol>
  * 
  *
