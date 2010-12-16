@@ -1,4 +1,4 @@
-package vidal
+/*package checker*/
 
 import org.htmlparser.*
 import org.htmlparser.util.*
@@ -83,12 +83,12 @@ public class Checker{
 
     private void load(){
 
-	config = new ConfigSlurper().parse(new File('vidal/SizeConfig.groovy').toURL())
+	config = new ConfigSlurper().parse(new File('SizeConfig.groovy').toURL())
     }
 
     private void save(){
 
-	new File("vidal/Size.groovy").withWriter { writer ->config.writeTo(writer)}
+	new File("SizeConfig.groovy").withWriter { writer ->config.writeTo(writer)}
     }
 
     public void diskCheck(){
