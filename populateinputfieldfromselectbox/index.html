@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+ <html lang="en">
+ <head>
+   <meta charset="utf-8">
+   <title>jQuery demo</title>
+ </head>
+ <body>
+ <select id="mc">
+</select>
+
+<input type="text" id="phone" />
+<input type="text" id="fax" /> 
+
+ 
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
+   <script>
+     $(document).ready(function(){
+
+
+			   var mcvalues = {
+		  "mcvalues": [
+			{ "id" : 0,    //malheureusement l'id est obligé de commencer à zéro (pour correspondre au tableau javascript)
+			  "name": "MC1",
+			  "phone": "100000000",
+			  "fax": "1222222222"
+			},
+			{ "id" : 1,
+			  "name": "MC2",
+			  "phone": "2000000000",
+			  "fax": "2222222222"
+			},
+			{ "id" : 2,
+			  "name": "MC3",
+			  "phone": "3000000000",
+			  "fax": "3222222222"
+			}]
+		};
+
+		
+		//populate the selectbox	
+		var options = $("#mc");
+		$.each(mcvalues.mcvalues, function() {
+			options.append($("<option />").val(this.id).text(this.name));
+		});
+		
+		// populate input box on change
+		$("#mc").change(function() {
+			var obj = mcvalues.mcvalues[this.value];
+			$('#phone').val(obj.phone);
+			$('#fax').val(obj.fax);;
+		});
+
+
+     });
+   </script>
+ </body>
+ </html>
