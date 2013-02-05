@@ -1,0 +1,21 @@
+Bonjour,
+
+Suite à notre entretien du Mardi 29 Janvier 2013, je vous reconfirme par écrit
+que parmi les deux postes proposés, c'est celui que vous m'a décrit,
+Benjamin, qui m'intéresse le plus.
+
+Je pense que c'est sur la partie interface que j'apporte plus de valeur ajoutée,
+et le poste que vous me proposez me positionne de manière plus assumée sur
+cette partie "interface web", tout en continuant d'enrichir mes connaissances Java
+dans votre équipe. Cela me plaÎáÎíÎİt beaucoup.
+
+Je comprends vos contraintes métiers, car j'ai déjà travaillé chez un éditeur : Vidal, l'encyclopédie des médicaments,
+Livraison / intégration des données mensuellement, validation et contrÎáÎíÎùle qualité à chaque livraison, usine logicielle.
+Je sais que les gens mixant des compétences Java et Front-end sont rares et j'espère vous avoir convaincu que je saurais
+répondre à vos besoins.
+
+Je vous remercie de l'attention que vous apportez à ma candidature,
+
+Sincères salutations,
+
+-- Cédric Levasseur
