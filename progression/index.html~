@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script src="chartist.js"></script>
+<script>
+fetch('http://jsonplaceholder.typicode.com/users')
+  .then(function(response) {
+    return response.json();
+  })
+  .then(function(users) {
+    var data = {
+      labels: users.map(function(user) {
+        return user.name;
+      }),
+      series: users.map(function(user) {
+        return user.name.length;
+      })
+    };
+  
+    var chart = new Chartist.Bar('#chart', data, {
+      distributeSeries: true
+    });
+  });
+</script>
+<link href="//cdn.jsdelivr.net/chartist.js/latest/chartist.min.css" rel="stylesheet" type="text/css" />
+  <meta charset="utf-8">
+  <title>Progression</title>
+</head>
+<body>
+  <div id="chart" class="ct-golden-section"></div>
+</body>
+</html>
